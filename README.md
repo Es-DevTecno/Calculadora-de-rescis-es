@@ -1,17 +1,15 @@
 # Calculadora-de-rescis-es
 Criei uma calculadora de rescisão de acordo com as Leis Trabalhistas do Brasil
 
-Entendido. Aqui está uma versão direta, técnica e sem enrolação, focada apenas em explicar o funcionamento do código para quem for ler o seu repositório.
-
-Título e Descrição
+    Título e Descrição
 Calculadora de Rescisão Trabalhista (CLT)
 
 Este script em Python automatiza o cálculo de verbas rescisórias e multa do FGTS. Ele recebe dados de entrada via terminal, processa as regras de datas da CLT e retorna um relatório financeiro.
 
-O que o código faz... (Explicação Técnica)
+    O que o código faz... (Explicação Técnica)
 O script utiliza a biblioteca Pandas para estruturação dos dados e Dateutil para cálculos precisos de datas. O fluxo de execução é:
 
-Entrada de Dados: Coleta nome, salário base, saldo do FGTS e as datas de admissão/demissão.
+  Entrada de Dados: Coleta nome, salário base, saldo do FGTS e as datas de admissão/demissão.
 
 Cálculo de Prazos (Dateutil): Utiliza relativedelta para determinar a diferença exata de meses entre a admissão e a demissão, fundamental para calcular os "avos" de férias.
 
