@@ -1,0 +1,87 @@
+import pandas as pd
+from datetime import date
+from dateutil.relativedelta import relativedelta
+
+# --- "TÍTULO"  ---
+print("========================================")
+print("      SISTEMA DE CÁLCULO DE RESCISÃO    ")
+print("========================================")
+
+try:
+    nome_digitado = input("1. Qual o nome do funcionário? ")
+    salario_digitado = float(input("2. Qual o soldo base ? "))
+    fgts_digitado = float(input("3. Qual o saldo do FGTS (para fins rescisórios)? "))
+
+    print("\n--- DATA DE ADMISSÃO (Quando entrou) ---")
+    dia_adm = int(input("Dia: "))
+    mes_adm = int(input("Mês: "))
+    ano_adm = int(input("Ano: "))
+    data_admissao = date(ano_adm, mes_adm, dia_adm)
+
+    print("\n--- DATA DE DEMISSÃO (Quando saiu) ---")
+    dia_dem = int(input("Dia: "))
+    mes_dem = int(input("Mês: "))
+    ano_dem = int(input("Ano: "))
+    data_demissao = date(ano_dem, mes_dem, dia_dem)
+
+    # --- ORGANIZANDO ---
+    employee_data = [
+        {
+            "nome": nome_digitado,
+            "salario": salario_digitado,
+            "saldo_fgts": fgts_digitado,
+            "admissao": data_admissao,
+            "demissao": data_demissao
+        }
+    ]
+
+    df = pd.DataFrame(employee_data)
+
+    # --- CÁLCULOS ---
+    def calcular_tudo(row):
+        salario = row['salario']
+        saldo_fgts = row['saldo_fgts'] ##saldo do app FGTS
+        dt_saida = row['demissao']
+        dt_inicio = row['admissao']
+
+        # Salário
+        dias_trabalhados = dt_saida.day
+        saldo_salario = (salario / 30) * dias_trabalhados
+
+        # 13º
+        meses_13 = dt_saida.month - 1
+        if dt_saida.day >= 15:
+            meses_13 += 1
+        valor_13 = (salario / 12) * meses_13
+
+        # Férias
+        delta = relativedelta(dt_saida, dt_inicio)
+        meses_ferias = delta.months
+        if dt_saida.day >= 15:
+            meses_ferias += 1
+        valor_ferias = (salario / 12) * meses_ferias
+        terco_ferias = valor_ferias / 3
+
+        # Multa 40% FGTS
+        multa_fgts = saldo_fgts * 0.40
+
+        # Valores de tudo tudo
+        total = saldo_salario + valor_13 + valor_ferias + terco_ferias + multa_fgts
+
+        return pd.Series({
+            "Saldo Salário": round(saldo_salario, 2),
+            "13º Proporcional": round(valor_13, 2),
+            "Férias + 1/3": round(valor_ferias + terco_ferias, 2),
+            "Multa FGTS (40%)": round(multa_fgts, 2),
+            "TOTAL A RECEBER": round(total, 2)
+        })
+
+    # --- RESULTADO ---
+    print("\n... Calculando ...\n")
+    resultado = df.apply(calcular_tudo, axis=1)
+    final = pd.concat([df[['nome']], resultado], axis=1)
+
+    print(final.T)
+
+except Exception as e:
+    print(f"\nOPA! Algo deu errado: {e}")
