@@ -1,8 +1,7 @@
 # Calculadora-de-rescis-es
 Criei uma calculadora de rescisão de acordo com as Leis Trabalhistas do Brasil
 
-    Título e Descrição
-Calculadora de Rescisão Trabalhista (CLT)
+ # Calculadora de Rescisão Trabalhista (CLT)
 
 Este script em Python automatiza o cálculo de verbas rescisórias e multa do FGTS. Ele recebe dados de entrada via terminal, processa as regras de datas da CLT e retorna um relatório financeiro.
 
