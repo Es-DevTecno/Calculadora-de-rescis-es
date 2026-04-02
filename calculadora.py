@@ -3,7 +3,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 
 class CalculadoraTrabalhista:
-    """Encapsula a lógica de negócio dos cálculos de rescisão."""
+    """ cálculos de rescisão."""
     
     def __init__(self, nome, salario, saldo_fgts, admissao, demissao):
         self.nome = nome
